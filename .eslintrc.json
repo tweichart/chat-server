@@ -1,0 +1,35 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "airbnb-base",
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "import/extensions": ["error", {
+            "js": "ignorePackages"
+        }],
+        "no-console": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                    ["#Exceptions", "./lib/Exceptions/"],
+                    ["#Repositories", "./lib/Repositories"],
+                    ["#routes", "./routes"],
+                    ["#lib", "./lib"]
+                ],
+                "extensions": [
+                    ".js"
+                ]
+            }
+        }
+    }
+}

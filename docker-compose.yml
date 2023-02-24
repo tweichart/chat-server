@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  chat-mongodb:
+    image: mongo:latest
+    container_name: chat-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+      - MONGO_INITDB_DATABASE=chat
+    ports:
+      - ${MONGODB_EXTERNAL_PORT}:${MONGODB_LOCAL_PORT}
+    volumes:
+      - ./docker/mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./docker/mongodb/db:/data/db:rw
+  chat-api:
+    build:
+      context: .
+      dockerfile: docker/rest/Dockerfile
+    depends_on:
+      - chat-mongodb
+    container_name: chat-api
+    ports:
+      - ${REST_EXTERNAL_PORT}:${REST_LOCAL_PORT}
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - DB_HOST=chat-mongodb
+      - DB_USER=${MONGODB_USER}
+      - DB_PASSWORD=${MONGODB_PASSWORD}
+      - DB_NAME=${MONGODB_DATABASE}
+      - DB_PORT=${MONGODB_LOCAL_PORT}
+volumes:
+  db:
