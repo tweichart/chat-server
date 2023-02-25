@@ -1,5 +1,5 @@
 import express from 'express';
-import Messages from '../lib/Repositories/MongoDB/Messages.js';
+import Messages from '#Repositories/MongoDB/Messages.js';
 
 const router = express.Router();
 

@@ -1,1 +1,2 @@
-lib/Repositories/Concerns/*.js
+src/Repositories/Concerns/*.js
+misc/*

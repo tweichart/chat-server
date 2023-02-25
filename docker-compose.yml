@@ -30,5 +30,22 @@ services:
       - DB_PASSWORD=${MONGODB_PASSWORD}
       - DB_NAME=${MONGODB_DATABASE}
       - DB_PORT=${MONGODB_LOCAL_PORT}
+  chat-websocket:
+    build:
+      context: .
+      dockerfile: docker/websocket/Dockerfile
+    depends_on:
+      - chat-mongodb
+    container_name: chat-websocket
+    ports:
+      - ${WEBSOCKET_EXTERNAL_PORT}:${WEBSOCKET_LOCAL_PORT}
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - DB_HOST=chat-mongodb
+      - DB_USER=${MONGODB_USER}
+      - DB_PASSWORD=${MONGODB_PASSWORD}
+      - DB_NAME=${MONGODB_DATABASE}
+      - DB_PORT=${MONGODB_LOCAL_PORT}
 volumes:
   db:

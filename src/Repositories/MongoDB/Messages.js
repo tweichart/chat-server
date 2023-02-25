@@ -1,5 +1,5 @@
 import ValidationException from '#Exceptions/ValidationException.js';
-import db from '#lib/Db.js';
+import db from '#src/Db.js';
 import IMessages from '#Repositories/Concerns/IMessages.js';
 
 class Messages extends IMessages {
@@ -18,13 +18,14 @@ class Messages extends IMessages {
         if (typeof room !== 'string' || room.length < 1) {
             throw new ValidationException('Invalid room parameter');
         }
-        const dbRes = await this.collection.insertOne({
-            message,
-            user,
-            room,
-            time: new Date(),
-        });
-        return dbRes.insertedId;
+        const messageObject = {
+            message, user, room, time: new Date(),
+        };
+        // save with writeConcern 0 for maximum speed when writing
+        // todo: add sent/delivered etc status after e.g. shared in cluster
+        // todo: format returned time
+        const dbRes = await this.collection.insertOne({ ...messageObject }, { w: 0 });
+        return dbRes ? messageObject : null;
     }
 
     async getMessages() {
@@ -32,7 +33,7 @@ class Messages extends IMessages {
             _id: 0,
             message: 1,
             user: 1,
-            channel: 1,
+            room: 1,
             date: { $dateToString: { format: '%Y-%m-%d %H:%M:%S', date: '$time' } },
         }).toArray();
         return messages;
@@ -40,7 +41,8 @@ class Messages extends IMessages {
 
     async getRooms() {
         const rooms = await this.collection.distinct('room');
-        return rooms;
+        // add default room to have something to subscribe to
+        return rooms.includes('default') ? rooms : ['default', ...rooms];
     }
 }
 

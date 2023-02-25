@@ -1,9 +1,9 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
-import MessagesRoutes from '#routes/messages.js';
-import RoomsRoutes from '#routes/rooms.js';
 import HttpException from '#Exceptions/HttpException.js';
+import MessagesRoutes from '#Controllers/MessagesController.js';
+import RoomsRoutes from '#Controllers/RoomsController.js';
 
 dotenv.config();
 
@@ -13,11 +13,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // load routes files
-app.use('/api/messages', MessagesRoutes);
-app.use('/api/rooms', RoomsRoutes);
+// todo: parse env input
+app.use(`/${process.env.REST_PATH}/messages`, MessagesRoutes);
+app.use(`/${process.env.REST_PATH}/rooms`, RoomsRoutes);
 
-// general resopnse handler
-app.use((data, req, res) => {
+// general response handler
+// eslint-disable-next-line no-unused-vars
+app.use((data, req, res, next) => {
     if (data instanceof Error) {
         res.status(data instanceof HttpException ? data.code : 500)
             .send({ error: data.message });

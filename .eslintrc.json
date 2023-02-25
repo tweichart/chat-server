@@ -21,10 +21,11 @@
         "import/resolver": {
             "alias": {
                 "map": [
-                    ["#Exceptions", "./lib/Exceptions/"],
-                    ["#Repositories", "./lib/Repositories"],
-                    ["#routes", "./routes"],
-                    ["#lib", "./lib"]
+                    ["#Controllers", "./src/Controllers/"],
+                    ["#Events", "./src/Events/"],
+                    ["#Exceptions", "./src/Exceptions/"],
+                    ["#Repositories", "./src/Repositories"],
+                    ["#src", "./src"]
                 ],
                 "extensions": [
                     ".js"
