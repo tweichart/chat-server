@@ -137,6 +137,17 @@ Output
 }
 ```
 
+### on:`exception`
+Get error messages feedback
+
+Output
+```
+{
+    errorMessage:
+    'Username needed or not allowed'
+}
+```
+
 ### emit:`room:join`
 Join room and announce
 
