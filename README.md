@@ -1,8 +1,10 @@
 # Chat Server
 
 ## Setup
+### Docker
 ```bash
 $ ~ : cp .env.example .env
+$ ~ : docker run --rm -v ${PWD}:/app node:latest npm i --prefix /app
 $ ~ : cd docker
 $ ~/docker : docker-compose up -d --build
 $ ~/docker : cd ..
