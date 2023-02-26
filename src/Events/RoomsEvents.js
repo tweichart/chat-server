@@ -10,6 +10,7 @@ export default class RoomsEvents extends BaseEvents {
     }
 
     leaveAll() {
+        // todo: fix bug where new user on same connection is already in room
         // eslint-disable-next-line no-restricted-syntax
         for (const room of this.io.sockets.adapter.rooms.keys()) {
             // leave all rooms but your private room

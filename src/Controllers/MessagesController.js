@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        await Messages.saveMessage(req.body.message, req.body.user, req.body.channel);
+        await Messages.saveMessage(req.body.message, req.body.user, req.body.room);
         next({ status: 201 });
     } catch (e) {
         next(e);
